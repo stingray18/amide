@@ -178,16 +178,14 @@ set(AMITK_DATA_SET_VARIABLE_H_TARGET)
 foreach(file ${AMITK_DATA_SET_VARIABLE_H})
 	add_custom_command(
 		OUTPUT ${file}
-		# COMMAND rm -f ${file}
 		COMMAND cd ${CMAKE_CURRENT_SOURCE_DIR} && m4 -P -Dm4_SourceFile=${file} variable_type.m4 > ${CMAKE_CURRENT_BINARY_DIR}/${file}
-		# COMMAND chmod -w ${file}
 		)
 	list(APPEND AMITK_DATA_SET_VARIABLE_H_TARGET ${file})
 endforeach()
 add_custom_target(do_amitk_data_set_variable_h DEPENDS ${AMITK_DATA_SET_VARIABLE_H_TARGET})
 add_dependencies(amide do_amitk_data_set_variable_h)
 
-set(AMITK_MARSHAL_H_TARGET amitk_marshal.h)
+set(AMITK_MARSHAL_H_TARGET ${CMAKE_CURRENT_BINARY_DIR}/amitk_marshal.h)
 add_custom_command(
 	OUTPUT ${AMITK_MARSHAL_H_TARGET}
 	COMMAND cd ${CMAKE_CURRENT_SOURCE_DIR} && glib-genmarshal amitk_marshal.list --header --prefix=amitk_marshal > ${AMITK_MARSHAL_H_TARGET}
@@ -195,7 +193,7 @@ add_custom_command(
 add_custom_target(do_amitk_marshal_h DEPENDS ${AMITK_MARSHAL_H_TARGET})
 add_dependencies(amide do_amitk_marshal_h)
 
-set(AMITK_MARSHAL_C_TARGET amitk_marshal.c)
+set(AMITK_MARSHAL_C_TARGET ${CMAKE_CURRENT_BINARY_DIR}/amitk_marshal.c)
 add_custom_command(
 	OUTPUT ${AMITK_MARSHAL_C_TARGET}
 	COMMAND cd ${CMAKE_CURRENT_SOURCE_DIR} && glib-genmarshal amitk_marshal.list --body --prefix=amitk_marshal > ${AMITK_MARSHAL_C_TARGET}
@@ -231,19 +229,19 @@ set(AMITK_H_SOURCES
 	amitk_window_edit.h
 )
 
-set(AMITK_TYPE_BUILTINS_H_TARGET amitk_type_builtins.h)
+set(AMITK_TYPE_BUILTINS_H_TARGET ${CMAKE_CURRENT_BINARY_DIR}/amitk_type_builtins.h)
 add_custom_command(
 	OUTPUT ${AMITK_TYPE_BUILTINS_H_TARGET}
-	COMMAND cd ${CMAKE_CURRENT_SOURCE_DIR} && glib-mkenums --fhead "#ifndef __AMITK_TYPE_BUILTINS_H__\\n#define\ __AMITK_TYPE_BUILTINS_H__\\n\\n#include <glib-object.h>\\n\\nG_BEGIN_DECLS\\n" --fprod "/* enumerations from \"@filename@\" */\\n" --vhead "GType @enum_name@_get_type (void);\\n#define AMITK_TYPE_@ENUMSHORT@ (@enum_name@_get_type())\\n" --ftail "G_END_DECLS\\n\\n#endif /* __AMITK_TYPE_BUILTINS_H__ */" ${AMITK_H_SOURCES}  >> xgen-atbh && cmp -s xgen-atbh amitk_type_builtins.h || cp xgen-atbh amitk_type_builtins.h && rm -f xgen-atbh && echo timestamp > stamp-amitk_type_builtins.h
+  COMMAND cd ${CMAKE_CURRENT_SOURCE_DIR} && glib-mkenums --fhead "#ifndef __AMITK_TYPE_BUILTINS_H__\\n#define\ __AMITK_TYPE_BUILTINS_H__\\n\\n#include <glib-object.h>\\n\\nG_BEGIN_DECLS\\n" --fprod "/* enumerations from \"@filename@\" */\\n" --vhead "GType @enum_name@_get_type (void);\\n#define AMITK_TYPE_@ENUMSHORT@ (@enum_name@_get_type())\\n" --ftail "G_END_DECLS\\n\\n#endif /* __AMITK_TYPE_BUILTINS_H__ */" ${AMITK_H_SOURCES}  >> xgen-atbh && cmp -s xgen-atbh amitk_type_builtins.h || cp xgen-atbh ${AMITK_TYPE_BUILTINS_H_TARGET} && rm -f xgen-atbh && echo timestamp > ${CMAKE_CURRENT_BINARY_DIR}/stamp-amitk_type_builtins.h
 	VERBATIM
 )
 add_custom_target(do_amitk_type_builtins_h DEPENDS ${AMITK_TYPE_BUILTINS_H_TARGET})
 add_dependencies(amide do_amitk_type_builtins_h)
 
-set(AMITK_TYPE_BUILTINS_C_TARGET amitk_type_builtins.c)
+set(AMITK_TYPE_BUILTINS_C_TARGET ${CMAKE_CURRENT_BINARY_DIR}/amitk_type_builtins.c)
 add_custom_command(
 	OUTPUT ${AMITK_TYPE_BUILTINS_C_TARGET}
-	COMMAND cd ${CMAKE_CURRENT_SOURCE_DIR} && glib-mkenums --fhead "#include <gtk/gtk.h>\\n#include \"amide_config.h\"\\n#include \"amitk_common.h\"\\n#include \"amitk_canvas.h\"\\n#include \"amitk_data_set.h\"\\n#include \"amitk_filter.h\"\\n#include \"amitk_object.h\"\\n#include \"amitk_point.h\"\\n#include \"amitk_raw_data.h\"\\n#include \"amitk_roi.h\"\\n#include \"amitk_space.h\"\\n#include \"amitk_threshold.h\"\\n#include \"amitk_tree_view.h\"\\n" --fprod "\\n/* enumerations from \"@filename@\" */" --vhead "GType\\n@enum_name@_get_type (void)\\n{\\n  static GType etype = 0;\\n  if (etype == 0) {\\n    static const G@Type@Value values[] = {" --vprod "      { @VALUENAME@, \"@VALUENAME@\", \"@valuenick@\" }," --vtail "      { 0, NULL, NULL }\\n    };\\n    etype = g_@type@_register_static (\"@EnumName@\", values);\\n  }\\n  return etype;\\n}\\n" ${AMITK_H_SOURCES} > xgen-atbc && cp xgen-atbc amitk_type_builtins.c && rm -f xgen-atbc && echo timestamp > stamp-amitk_type_builtins.c
+  COMMAND cd ${CMAKE_CURRENT_SOURCE_DIR} && glib-mkenums --fhead "#include <gtk/gtk.h>\\n#include \"amide_config.h\"\\n#include \"amitk_common.h\"\\n#include \"amitk_canvas.h\"\\n#include \"amitk_data_set.h\"\\n#include \"amitk_filter.h\"\\n#include \"amitk_object.h\"\\n#include \"amitk_point.h\"\\n#include \"amitk_raw_data.h\"\\n#include \"amitk_roi.h\"\\n#include \"amitk_space.h\"\\n#include \"amitk_threshold.h\"\\n#include \"amitk_tree_view.h\"\\n" --fprod "\\n/* enumerations from \"@filename@\" */" --vhead "GType\\n@enum_name@_get_type (void)\\n{\\n  static GType etype = 0;\\n  if (etype == 0) {\\n    static const G@Type@Value values[] = {" --vprod "      { @VALUENAME@, \"@VALUENAME@\", \"@valuenick@\" }," --vtail "      { 0, NULL, NULL }\\n    };\\n    etype = g_@type@_register_static (\"@EnumName@\", values);\\n  }\\n  return etype;\\n}\\n" ${AMITK_H_SOURCES} > xgen-atbc && cp xgen-atbc ${AMITK_TYPE_BUILTINS_C_TARGET} && rm -f xgen-atbc && echo timestamp > ${CMAKE_CURRENT_BINARY_DIR}/stamp-amitk_type_builtins.c
 	VERBATIM
 )
 add_custom_target(do_amitk_type_builtins_c DEPENDS ${AMITK_TYPE_BUILTINS_C_TARGET})
