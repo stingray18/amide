@@ -5,12 +5,28 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS true)
 add_executable(${PROJECT_NAME})
 target_compile_definitions(${PROJECT_NAME} PUBLIC AMIDE_DEBUG)
 
-INCLUDE_DIRECTORIES("/usr/include/glib-2.0" "/usr/lib64/glib-2.0/include" "/usr/include/pango-1.0" "/usr/include/harfbuzz"
-	"/usr/include/gtk-2.0" "/usr/include/cairo" "/usr/include/gdk-pixbuf-2.0" "/usr/include/atk-1.0" "/usr/include/libgnomecanvas-2.0"
-	"/usr/include/libart-2.0" "/usr/include/libxml2" "/usr/lib64/gtk-2.0/include" "/usr/include/glib-2.0" "/usr/lib/x86_64-linux-gnu/glib-2.0/include"
-  "/usr/lib/x86_64-linux-gnu/gtk-2.0/include" "/usr/include/libgnomecanvas-2.0" ${CMAKE_CURRENT_SOURCE_DIR}/src ${CMAKE_CURRENT_BINARY_DIR}/src)
+find_package(GTK2 REQUIRED)
+find_package(LibXml2 REQUIRED)
 
-target_link_libraries(${PROJECT_NAME} gtk-x11-2.0 glib-2.0 gobject-2.0 gdk-x11-2.0 atk-1.0 pango-1.0 gnomecanvas-2 gdk_pixbuf-2.0 xml2 m)
+INCLUDE_DIRECTORIES(
+  ${GTK2_X11_INCLUDE_DIR}
+  ${GTK2_GLIB_INCLUDE_DIR}
+  ${GTK2_GLIBCONFIG_INCLUDE_DIR}
+  ${GTK2_PANGO_INCLUDE_DIR}
+  ${GTK2_HARFBUZZ_INCLUDE_DIR}
+  ${GTK2_GTK_INCLUDE_DIR}
+  ${GTK2_CAIRO_INCLUDE_DIR}
+  ${GTK2_GDKCONFIG_INCLUDE_DIR}
+  ${GTK2_GDK_PIXBUF_INCLUDE_DIR}
+  ${GTK2_ATK_INCLUDE_DIR}
+  "/usr/include/libgnomecanvas-2.0"
+  "/usr/include/libart-2.0"
+  ${LIBXML2_INCLUDE_DIR}
+  ${CMAKE_CURRENT_SOURCE_DIR}/src
+  ${CMAKE_CURRENT_BINARY_DIR}/src
+)
+
+target_link_libraries(${PROJECT_NAME} ${GTK2_LIBRARIES} gnomecanvas-2 ${LIBXML2_LIBRARIES} m)
 add_subdirectory(src)
 add_subdirectory(pixmaps)
 
