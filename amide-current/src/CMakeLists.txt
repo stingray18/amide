@@ -7,12 +7,13 @@ set(AMITK_ROI_VARIABLE_C
 	amitk_roi_FREEHAND_2D.c
 	amitk_roi_FREEHAND_3D.c
 )
+# set_source_files_properties(${AMITK_ROI_VARIABLE_C} PROPERTIES GENERATED TRUE)
 set(AMITK_ROI_VARIABLE_C_TARGET)
 foreach(file ${AMITK_ROI_VARIABLE_C})
 	add_custom_command(
 		OUTPUT ${file}
 		# COMMAND rm -f ${file}
-		COMMAND cd ${CMAKE_CURRENT_SOURCE_DIR} && m4 -P -Dm4_SourceFile=${file} variable_type.m4 > ${file}
+    COMMAND cd ${CMAKE_CURRENT_SOURCE_DIR} && m4 -P -Dm4_SourceFile=${file} variable_type.m4 > ${CMAKE_CURRENT_BINARY_DIR}/${file}
 		# COMMAND chmod -w ${file}
 		)
 	list(APPEND AMITK_ROI_VARIABLE_C_TARGET ${file})
@@ -29,12 +30,13 @@ set(AMITK_ROI_VARIABLE_H
 	amitk_roi_FREEHAND_2D.h
 	amitk_roi_FREEHAND_3D.h
 )
+set_source_files_properties(${AMITK_ROI_VARIABLE_H} PROPERTIES GENERATED TRUE)
 set(AMITK_ROI_VARIABLE_H_TARGET)
 foreach(file ${AMITK_ROI_VARIABLE_H})
 	add_custom_command(
 		OUTPUT ${file}
 		# COMMAND rm -f ${file}
-		COMMAND cd ${CMAKE_CURRENT_SOURCE_DIR} && m4 -P -Dm4_SourceFile=${file} variable_type.m4 > ${file}
+    COMMAND cd ${CMAKE_CURRENT_SOURCE_DIR} && m4 -P -Dm4_SourceFile=${file} variable_type.m4 > ${CMAKE_CURRENT_BINARY_DIR}/${file}
 		# COMMAND chmod -w ${file}
 		)
 	list(APPEND AMITK_ROI_VARIABLE_H_TARGET ${file})
@@ -44,12 +46,13 @@ add_dependencies(amide do_amitk_roi_variable_h)
 
 
 set(AMITK_RAW_DATA_VARIABLE_H amitk_raw_data_UBYTE.h amitk_raw_data_SBYTE.h amitk_raw_data_USHORT.h amitk_raw_data_SSHORT.h amitk_raw_data_UINT.h amitk_raw_data_SINT.h amitk_raw_data_FLOAT.h amitk_raw_data_DOUBLE.h)
+set_source_files_properties(${AMITK_RAW_DATA_VARIABLE_H} PROPERTIES GENERATED TRUE)
 set(AMITK_RAW_DATA_VARIABLE_H_TARGET)
 foreach(file ${AMITK_RAW_DATA_VARIABLE_H})
 	add_custom_command(
 		OUTPUT ${file}
 		# COMMAND rm -f ${file}
-		COMMAND cd ${CMAKE_CURRENT_SOURCE_DIR} && m4 -P -Dm4_SourceFile=${file} variable_type.m4 > ${file}
+		COMMAND cd ${CMAKE_CURRENT_SOURCE_DIR} && m4 -P -Dm4_SourceFile=${file} variable_type.m4 > ${CMAKE_CURRENT_BINARY_DIR}/${file}
 		# COMMAND chmod -w ${file}
 		)
 	list(APPEND AMITK_RAW_DATA_VARIABLE_H_TARGET ${file})
@@ -67,12 +70,13 @@ set(AMITK_RAW_DATA_VARIABLE_C
 	amitk_raw_data_FLOAT.c
 	amitk_raw_data_DOUBLE.c
 )
+set_source_files_properties(${AMITK_RAW_DATA_VARIABLE_C} PROPERTIES GENERATED TRUE)
 set(AMITK_RAW_DATA_VARIABLE_C_TARGET)
 foreach(file ${AMITK_RAW_DATA_VARIABLE_C})
 	add_custom_command(
 		OUTPUT ${file}
 		# COMMAND rm -f ${file}
-		COMMAND cd ${CMAKE_CURRENT_SOURCE_DIR} && m4 -P -Dm4_SourceFile=${file} variable_type.m4 > ${file}
+		COMMAND cd ${CMAKE_CURRENT_SOURCE_DIR} && m4 -P -Dm4_SourceFile=${file} variable_type.m4 > ${CMAKE_CURRENT_BINARY_DIR}/${file}
 		# COMMAND chmod -w ${file}
 		)
 	list(APPEND AMITK_RAW_DATA_VARIABLE_C_TARGET ${file})
@@ -136,7 +140,7 @@ foreach(file ${AMITK_DATA_SET_VARIABLE_C})
 	add_custom_command(
 		OUTPUT ${file}
 		# COMMAND rm -f ${file}
-		COMMAND cd ${CMAKE_CURRENT_SOURCE_DIR} && m4 -P -Dm4_SourceFile=${file} variable_type.m4 > ${file}
+    COMMAND cd ${CMAKE_CURRENT_SOURCE_DIR} && m4 -P -Dm4_SourceFile=${file} variable_type.m4 > ${CMAKE_CURRENT_BINARY_DIR}/${file}
 		# COMMAND chmod -w ${file}
 		)
 	list(APPEND AMITK_DATA_SET_VARIABLE_C_TARGET ${file})
@@ -175,7 +179,7 @@ foreach(file ${AMITK_DATA_SET_VARIABLE_H})
 	add_custom_command(
 		OUTPUT ${file}
 		# COMMAND rm -f ${file}
-		COMMAND cd ${CMAKE_CURRENT_SOURCE_DIR} && m4 -P -Dm4_SourceFile=${file} variable_type.m4 > ${file}
+		COMMAND cd ${CMAKE_CURRENT_SOURCE_DIR} && m4 -P -Dm4_SourceFile=${file} variable_type.m4 > ${CMAKE_CURRENT_BINARY_DIR}/${file}
 		# COMMAND chmod -w ${file}
 		)
 	list(APPEND AMITK_DATA_SET_VARIABLE_H_TARGET ${file})
@@ -304,4 +308,5 @@ target_sources(${PROJECT_NAME} PUBLIC amide.c amide_gnome.c amitk_common.c amitk
 	ui_time_dialog.c
 	vistaio_interface.c
 	xml.c
-	${AMITK_RAW_DATA_VARIABLE_C} ${AMITK_DATA_SET_VARIABLE_C} ${AMITK_ROI_VARIABLE_C} ${AMITK_MARSHAL_C_TARGET} ${AMITK_TYPE_BUILTINS_C_TARGET})
+  # ${AMITK_RAW_DATA_VARIABLE_C_TARGET} ${AMITK_DATA_SET_VARIABLE_C_TARGET} ${AMITK_ROI_VARIABLE_C_TARGET} ${AMITK_MARSHAL_C_TARGET} ${AMITK_TYPE_BUILTINS_C_TARGET}
+  )
