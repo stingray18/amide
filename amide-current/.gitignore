@@ -76,3 +76,6 @@ gtk-doc.make
 gnome-doc-utils.make
 compile
 missing
+.cache/
+build/
+
