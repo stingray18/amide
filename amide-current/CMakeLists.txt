@@ -18,6 +18,16 @@ if (NOT gnomecanvas-2_INCLUDE_DIR)
     "libgnomecanvas.h not found")
 endif()
 
+find_path(libart-2_INCLUDE_DIR
+  NAMES libart_lgpl/libart.h
+  PATHS /usr/include/libart-2.0
+)
+mark_as_advanced(libart-2_INCLUDE_DIR)
+if (NOT libart-2_INCLUDE_DIR)
+  message(FATAL_ERROR
+    "libart.h not found")
+endif()
+
 INCLUDE_DIRECTORIES(
   ${GTK2_X11_INCLUDE_DIR}
   ${GTK2_GLIB_INCLUDE_DIR}
@@ -30,7 +40,7 @@ INCLUDE_DIRECTORIES(
   ${GTK2_GDK_PIXBUF_INCLUDE_DIR}
   ${GTK2_ATK_INCLUDE_DIR}
   ${gnomecanvas-2_INCLUDE_DIR}
-  "/usr/include/libart-2.0"
+  ${libart-2_INCLUDE_DIR}
   ${LIBXML2_INCLUDE_DIR}
   ${CMAKE_CURRENT_SOURCE_DIR}/src
   ${CMAKE_CURRENT_BINARY_DIR}/src
