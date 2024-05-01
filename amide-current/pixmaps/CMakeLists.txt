@@ -58,9 +58,9 @@ foreach(file ${pixmap_DATA})
 	string(REPLACE ".png" "" identifier ${file})
 	add_custom_command(
 		OUTPUT ${output_h}
-		COMMAND cd ${CMAKE_CURRENT_SOURCE_DIR} && gdk-pixbuf-csource --raw --extern --name=${identifier} ${file} > ${output_h}
+    COMMAND cd ${CMAKE_CURRENT_SOURCE_DIR} && gdk-pixbuf-csource --raw --extern --name=${identifier} ${file} > ${CMAKE_CURRENT_BINARY_DIR}/${output_h}
 		)
-	list(APPEND AMITK_BUILT_SOURCES_TARGET ${output_h})
+  list(APPEND AMITK_BUILT_SOURCES_TARGET ${CMAKE_CURRENT_BINARY_DIR}/${output_h})
 endforeach()
 add_custom_target(do_build_sources DEPENDS ${AMITK_BUILT_SOURCES_TARGET})
 add_dependencies(amide do_build_sources)
