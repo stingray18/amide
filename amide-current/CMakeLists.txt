@@ -8,6 +8,16 @@ target_compile_definitions(${PROJECT_NAME} PUBLIC AMIDE_DEBUG)
 find_package(GTK2 REQUIRED)
 find_package(LibXml2 REQUIRED)
 
+find_path(gnomecanvas-2_INCLUDE_DIR
+  NAMES libgnomecanvas/libgnomecanvas.h
+  PATHS /usr/include/libgnomecanvas-2.0
+)
+mark_as_advanced(gnomecanvas-2_INCLUDE_DIR)
+if (NOT gnomecanvas-2_INCLUDE_DIR)
+  message(FATAL_ERROR
+    "libgnomecanvas.h not found")
+endif()
+
 INCLUDE_DIRECTORIES(
   ${GTK2_X11_INCLUDE_DIR}
   ${GTK2_GLIB_INCLUDE_DIR}
@@ -19,7 +29,7 @@ INCLUDE_DIRECTORIES(
   ${GTK2_GDKCONFIG_INCLUDE_DIR}
   ${GTK2_GDK_PIXBUF_INCLUDE_DIR}
   ${GTK2_ATK_INCLUDE_DIR}
-  "/usr/include/libgnomecanvas-2.0"
+  ${gnomecanvas-2_INCLUDE_DIR}
   "/usr/include/libart-2.0"
   ${LIBXML2_INCLUDE_DIR}
   ${CMAKE_CURRENT_SOURCE_DIR}/src
