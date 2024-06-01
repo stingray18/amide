@@ -1,0 +1,11 @@
+#cmakedefine AMIDE_LIBGSL_SUPPORT
+
+#cmakedefine AMIDE_LIBMDC_SUPPORT
+
+#cmakedefine AMIDE_LIBDCMDATA_SUPPORT
+
+#cmakedefine AMIDE_LIBVOLPACK_SUPPORT
+
+#cmakedefine AMIDE_FFMPEG_SUPPORT
+
+
