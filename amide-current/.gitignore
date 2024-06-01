@@ -19,7 +19,6 @@ po/POTFILES
 po/stamp-it
 src/.deps/
 stamp-h1
-amide_config.h.in*
 Makefile.in
 doc/Makefile.in
 doc/reference/Makefile.in
