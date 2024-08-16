@@ -28,6 +28,48 @@ if (NOT libart-2_INCLUDE_DIR)
     "libart.h not found")
 endif()
 
+
+# try to locate optional libs
+
+find_path(libmdc_INCLUDE_DIR
+  NAMES libmdc.so
+  PATHS /usr/lib/x86_64-linux-gnu
+)
+mark_as_advanced(libmdc_INCLUDE_DIR)
+if (libmdc_INCLUDE_DIR)
+  option(AMIDE_LIBMDC_SUPPORT "Enable libmdc support" ON)
+else()
+  message(FATAL_ERROR
+    "/usr/lib/x86_64-linux-gnu/libmdc.so not found")
+endif()
+
+
+find_path(libgsl_INCLUDE_DIR
+  NAMES gsl_version.h
+  PATHS /usr/include/gsl
+)
+mark_as_advanced(libgsl_INCLUDE_DIR)
+if (libgsl_INCLUDE_DIR)
+  option(AMIDE_LIBGSL_SUPPORT "Enable libgsl support" ON)
+else()
+  message(FATAL_ERROR
+    "gsl/gsl_version.h not found")
+endif()
+
+find_path(volpack_INCLUDE_DIR
+  NAMES volpack.h
+  PATHS /usr/include
+)
+mark_as_advanced(volpack_INCLUDE_DIR)
+if (volpack_INCLUDE_DIR)
+  option(AMIDE_LIBVOLPACK_SUPPORT "Enable libvolpack support" ON)
+else()
+  message(FATAL_ERROR
+    "volpack.h not found")
+endif()
+
+configure_file(amide_config.h.in amide_config.h @ONLY)
+
 INCLUDE_DIRECTORIES(
   ${GTK2_X11_INCLUDE_DIR}
   ${GTK2_GLIB_INCLUDE_DIR}
