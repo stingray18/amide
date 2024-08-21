@@ -59,4 +59,5 @@ compile
 missing
 .cache/
 build/
+/compile_commands.json
 
