@@ -68,7 +68,7 @@ else()
     "volpack.h not found")
 endif()
 
-configure_file(amide_config.h.in amide_config.h @ONLY)
+configure_file(amide_config.h.in src/amide_config.h @ONLY)
 
 INCLUDE_DIRECTORIES(
   ${GTK2_X11_INCLUDE_DIR}
