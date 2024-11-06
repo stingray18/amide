@@ -68,11 +68,14 @@ else()
     "volpack.h not found")
 endif()
 
-set(PACKAGE_NAME "amide")
+
 set(PACKAGE_TARNAME "amide")
 set(PACKAGE_VERSION "1.0.6")
+set(PACKAGE "amide")
+set(VERSION "1.0.6")
 set(PACKAGE_BUGREPORT "amide-users@lists.sourceforge.net")
 set(GETTEXT_PACKAGE "amide")
+set(AMIDE_DATADIR "/tmp")
 configure_file(amide_config.h.in src/amide_config.h @ONLY)
 
 INCLUDE_DIRECTORIES(

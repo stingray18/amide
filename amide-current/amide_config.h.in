@@ -8,11 +8,13 @@
 
 #cmakedefine01 AMIDE_FFMPEG_SUPPORT
 
-#cmakedefine PACKAGE_NAME "@PACKAGE_NAME@"
+#cmakedefine PACKAGE "@PACKAGE_NAME@"
 
 #cmakedefine PACKAGE_TARNAME "@PACKAGE_TARNAME@"
 
 #cmakedefine PACKAGE_VERSION "@PACKAGE_VERSION@"
+
+#cmakedefine VERSION "@VERSION@"
 
 #cmakedefine PACKAGE_STRING "@PACKAGE_STRING@"
 
@@ -21,4 +23,6 @@
 #cmakedefine PACKAGE_URL "@PACKAGE_URL@"
 
 #cmakedefine GETTEXT_PACKAGE "@GETTEXT_PACKAGE@"
+
+#cmakedefine AMIDE_DATADIR "@AMIDE_DATADIR@"
 
