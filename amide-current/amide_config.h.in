@@ -6,7 +6,7 @@
 
 #cmakedefine01 AMIDE_LIBVOLPACK_SUPPORT
 
-#cmakedefine01 AMIDE_FFMPEG_SUPPORT
+#cmakedefine01 AMIDE_LIBGNOMECANVAS_AA
 
 #cmakedefine PACKAGE "@PACKAGE_NAME@"
 
@@ -25,4 +25,8 @@
 #cmakedefine GETTEXT_PACKAGE "@GETTEXT_PACKAGE@"
 
 #cmakedefine AMIDE_DATADIR "@AMIDE_DATADIR@"
+
+#cmakedefine AMIDE_FFMPEG_SUPPORT
+
+#cmakedefine SIZEOF_LONG_LONG @SIZEOF_LONG_LONG@
 
