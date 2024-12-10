@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(amide LANGUAGES C)
+project(amide LANGUAGES C CXX)
 set(CMAKE_EXPORT_COMPILE_COMMANDS true)
 
 add_executable(${PROJECT_NAME})
@@ -31,17 +31,27 @@ endif()
 
 # try to locate optional libs
 
+find_package(DCMTK)
+if (DCMTK_DIR)
+  option(AMIDE_LIBDCMDATA_SUPPORT "Enable DCMTK support" ON)
+endif()
+ 
 find_path(libmdc_INCLUDE_DIR
-  NAMES libmdc.so
-  PATHS /usr/lib/x86_64-linux-gnu
+  NAMES medcon.h
+  PATHS /usr/include
 )
 mark_as_advanced(libmdc_INCLUDE_DIR)
 if (libmdc_INCLUDE_DIR)
   option(AMIDE_LIBMDC_SUPPORT "Enable libmdc support" ON)
 else()
   message(FATAL_ERROR
-    "/usr/lib/x86_64-linux-gnu/libmdc.so not found")
+    "/usr/include/medcon.h not found")
 endif()
+
+find_library(libmdc_LIBPATH
+  NAMES libmdc.so
+	PATHS /usr/lib/x86_64-linux-gnu
+)
 
 
 find_path(libgsl_INCLUDE_DIR
@@ -56,6 +66,15 @@ else()
     "gsl/gsl_version.h not found")
 endif()
 
+find_library(libgsl_LIB_DIR
+  NAMES libgsl.so
+	PATHS /usr/lib/x86_64-linux-gnu
+)
+# if (libgsl_LIB_DIR)
+  # target_link_libraries(amide PRIVATE gsl)
+#   target_link_directories(amide PRIVATE ${libgsl_LIB_DIR})
+# endif()
+
 find_path(volpack_INCLUDE_DIR
   NAMES volpack.h
   PATHS /usr/include
@@ -68,6 +87,12 @@ else()
     "volpack.h not found")
 endif()
 
+find_library(libvolpack_LIBPATH
+  NAMES libvolpack.so
+  PATH /usr/lib/x86_64-linux-gnu
+)
+
+option(AMIDE_LIBGNOMECANVAS_AA "Enable libgnomecanvas" ON)
 
 set(PACKAGE_TARNAME "amide")
 set(PACKAGE_VERSION "1.0.6")
@@ -76,6 +101,7 @@ set(VERSION "1.0.6")
 set(PACKAGE_BUGREPORT "amide-users@lists.sourceforge.net")
 set(GETTEXT_PACKAGE "amide")
 set(AMIDE_DATADIR "/tmp")
+set(SIZEOF_LONG_LONG 8)
 configure_file(amide_config.h.in src/amide_config.h @ONLY)
 
 INCLUDE_DIRECTORIES(
@@ -91,12 +117,13 @@ INCLUDE_DIRECTORIES(
   ${GTK2_ATK_INCLUDE_DIR}
   ${gnomecanvas-2_INCLUDE_DIR}
   ${libart-2_INCLUDE_DIR}
+	${libmdc_INCLUDE_DIR}
   ${LIBXML2_INCLUDE_DIR}
   ${CMAKE_CURRENT_SOURCE_DIR}/src
   ${CMAKE_CURRENT_BINARY_DIR}/src
 )
 
-target_link_libraries(${PROJECT_NAME} ${GTK2_LIBRARIES} gnomecanvas-2 ${LIBXML2_LIBRARIES} m)
+target_link_libraries(${PROJECT_NAME} ${GTK2_LIBRARIES} gnomecanvas-2 ${LIBXML2_LIBRARIES} ${libgsl_LIB_DIR} ${libvolpack_LIBPATH} ${libmdc_LIBPATH} DCMTK::DCMTK m)
 add_subdirectory(src)
 add_subdirectory(pixmaps)
 
