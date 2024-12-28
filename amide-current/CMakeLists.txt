@@ -128,8 +128,6 @@ add_subdirectory(src)
 add_subdirectory(pixmaps)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS true)
-# configure_file("amide_config.h.cmakein" "src/amide_config.h")
-
 
 if (CMAKE_COMPILER_IS_GNUCXX)
 	add_compile_options(
